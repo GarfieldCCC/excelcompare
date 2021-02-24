@@ -1,0 +1,114 @@
+#pushButton {
+    color: rgb(0, 0, 0);
+    background-color: rgb(198, 224, 205);
+    border-radius: 6px
+}
+
+#pushButton:hover {
+    color: green
+}
+
+#pushButton:pressed {
+    background-color: rgb(180, 180, 180);
+    border: None;
+}
+
+#pushButton_2 {
+    color: rgb(0, 0, 0);
+    background-color: rgb(198, 224, 205);
+    border-radius: 6px
+}
+
+#pushButton_2:hover {
+    color: green
+}
+
+#pushButton_2:pressed {
+    background-color: rgb(180, 180, 180);
+    border: None;
+}
+
+#pushButton_3 {
+    color: rgb(0, 0, 0);
+    background-color: rgb(198, 224, 205);
+    border-radius: 6px
+}
+
+#pushButton_3:hover {
+    color: green
+}
+
+#pushButton_3:pressed {
+    background-color: rgb(180, 180, 180);
+    border: None;
+}
+
+#pushButton_4 {
+    color: rgb(0, 0, 0);
+    background-color: rgb(198, 224, 205);
+    border-radius: 6px
+}
+
+#pushButton_4:hover {
+    color: red
+}
+
+#pushButton_4:pressed {
+    background-color: rgb(180, 180, 180);
+    border: None;
+}
+
+QMessageBox {
+    background-color: #F2F2F2;
+}
+
+QMessageBox QLabel {
+    color: green;
+    background-color: transparent;
+}
+
+QMessageBox QPushButton { /* QMessageBox中的QPushButton样式 */
+    border: 1px solid rgb(198, 224, 205);
+    border-radius: 3px;
+    background-color: rgb(198, 224, 205);
+    color: black;
+    font-family: "Microsoft YaHei";
+    font-size: 10pt;
+    min-width: 70px;
+    min-height: 25px;
+}
+
+QMessageBox QPushButton:hover {
+    background-color: green;
+    color: #F2F2F2;
+}
+
+QMessageBox QPushButton:pressed {
+    background-color: rgb(198, 224, 205);
+}
+
+QInputDialog QLabel {
+    font-family: "Microsoft YaHei";
+    color: green;
+    background-color: transparent;
+}
+
+QInputDialog QPushButton { /* QMessageBox中的QPushButton样式 */
+    border: 1px solid rgb(198, 224, 205);
+    border-radius: 3px;
+    background-color: rgb(198, 224, 205);
+    color: black;
+    font-family: "Microsoft YaHei";
+    font-size: 10pt;
+    min-width: 70px;
+    min-height: 25px;
+}
+
+QInputDialog QPushButton:hover {
+    background-color: green;
+    color: #F2F2F2;
+}
+
+QInputDialog QPushButton:pressed {
+    background-color: rgb(198, 224, 205);
+}
