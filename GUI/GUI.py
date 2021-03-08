@@ -120,6 +120,9 @@ class ExcelOutput:
             ws.write(end_row, 3, style=self.style)
             ws.write(end_row, 4, label='名称', style=self.style)
             ws.write(end_row, 5, label=i[3], style=self.style)
+            ws.write(end_row, 7, label=i[6], style=self.style)
+            ws.write(end_row, 8, label=i[7], style=self.style)
+            ws.write(end_row, 9, label=i[26], style=self.style)
             end_row = end_row + 1
         end = end_row - 1
         if start <= end:
