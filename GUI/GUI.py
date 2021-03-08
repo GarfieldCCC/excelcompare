@@ -462,10 +462,10 @@ class Ui_MainWindow(object):
 
                 # 第一遍, 为了获取最大列宽
                 self.excel_write.output_head(ws)
-                try:
-                    start_row = 2
-                    for name in dic_old:
-                        if name in dic_new:
+                start_row = 2
+                for name in dic_old:
+                    if name in dic_new:
+                        try:
                             mat_old = self.excel_compare.generate_mat_complete(dic_old[name], excel_old)
                             mat_new = self.excel_compare.generate_mat_complete(dic_new[name], excel_new)
 
@@ -477,14 +477,19 @@ class Ui_MainWindow(object):
                                                                                         c_mat_old, c_mat_new, name)
                             start_row = self.excel_write.output_excel(ws, wb, output_path, change_res, delete_res,
                                                                       add_res, name, start_row)
+                        except IndexError:
+                            info = "零部件序号不连续"
+                            self.info_tip(info)
+                            return
 
-                    max_list = self.excel_write.adjust_col(output_path)
+                max_list = self.excel_write.adjust_col(output_path)
 
-                    # 第二遍, 带上列宽和格式写入
-                    self.excel_write.output_head(ws)
-                    start_row = 2
-                    for name in dic_old:
-                        if name in dic_new:
+                # 第二遍, 带上列宽和格式写入
+                self.excel_write.output_head(ws)
+                start_row = 2
+                for name in dic_old:
+                    if name in dic_new:
+                        try:
                             mat_old = self.excel_compare.generate_mat_complete(dic_old[name], excel_old)
                             mat_new = self.excel_compare.generate_mat_complete(dic_new[name], excel_new)
 
@@ -497,10 +502,10 @@ class Ui_MainWindow(object):
                             start_row = self.excel_write.output_excel(ws, wb, output_path, change_res, delete_res,
                                                                       add_res, name, start_row,
                                                                       max_list)
-                except IndexError:
-                    info = "零部件序号不连续!  "
-                    self.info_tip(info)
-                    return
+                        except IndexError:
+                            info = "零部件序号不连续"
+                            self.info_tip(info)
+                            return
 
                 ws.write(start_row + 1, 0, label=self.excel_compare.compare_components(name_set_old, name_set_new),
                          style=self.excel_write.style_note)
