@@ -377,7 +377,8 @@ class Ui_MainWindow(object):
                 sys.exit()
             else:
                 if dialog.textValue() != "sgxl8105369":
-                    self.info_pwd()
+                    info = "密码错误请重试  "
+                    self.info_tip(info)
                     return False
             with open('ID.txt', "w") as f:
                 f.write("True")
@@ -385,51 +386,12 @@ class Ui_MainWindow(object):
         else:
             return True
 
-    def info_pwd(self):  # 消息：密码错误
+    def info_tip(self, info):
+        text = "<font size='4'>" + info + "</font>"
         msg_box = QtWidgets.QMessageBox()
         msg_box.setWindowIcon(QtGui.QIcon("info.ico"))
         msg_box.setWindowTitle("注意! ")
-        msg_box.setText("<font size='4'>密码错误请重试  </font>")
-        msg_box.setStandardButtons(QtWidgets.QMessageBox.Yes)
-        btn_yes = msg_box.button(QtWidgets.QMessageBox.Yes)
-        btn_yes.setText("确定")
-        msg_box.exec_()
-
-    def info_wrong_file(self):  # 消息：文件内容不对
-        msg_box = QtWidgets.QMessageBox()
-        msg_box.setWindowIcon(QtGui.QIcon("info.ico"))
-        msg_box.setWindowTitle("注意! ")
-        msg_box.setText("<font size='4'>文件格式不正确, 请选择正确格式的文件  </font>")
-        msg_box.setStandardButtons(QtWidgets.QMessageBox.Yes)
-        btn_yes = msg_box.button(QtWidgets.QMessageBox.Yes)
-        btn_yes.setText("确定")
-        msg_box.exec_()
-
-    def info_old(self):  # 消息：旧版文件不能为空
-        msg_box = QtWidgets.QMessageBox()
-        msg_box.setWindowIcon(QtGui.QIcon("info.ico"))
-        msg_box.setWindowTitle("注意! ")
-        msg_box.setText("<font size='4'>旧版文件为空, 请重新选择!  </font>")
-        msg_box.setStandardButtons(QtWidgets.QMessageBox.Yes)
-        btn_yes = msg_box.button(QtWidgets.QMessageBox.Yes)
-        btn_yes.setText("确定")
-        msg_box.exec_()
-
-    def info_new(self):  # 消息：新版文件不能为空
-        msg_box = QtWidgets.QMessageBox()
-        msg_box.setWindowIcon(QtGui.QIcon("info.ico"))
-        msg_box.setWindowTitle("注意! ")
-        msg_box.setText("<font size='4'>新版文件为空, 请重新选择!  </font>")
-        msg_box.setStandardButtons(QtWidgets.QMessageBox.Yes)
-        btn_yes = msg_box.button(QtWidgets.QMessageBox.Yes)
-        btn_yes.setText("确定")
-        msg_box.exec_()
-
-    def info_index(self):  # 消息：序号索引不对
-        msg_box = QtWidgets.QMessageBox()
-        msg_box.setWindowIcon(QtGui.QIcon("info.ico"))
-        msg_box.setWindowTitle("注意! ")
-        msg_box.setText("<font size='4'>零部件序号不连续!  </font>")
+        msg_box.setText(text)
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Yes)
         btn_yes = msg_box.button(QtWidgets.QMessageBox.Yes)
         btn_yes.setText("确定")
@@ -472,9 +434,11 @@ class Ui_MainWindow(object):
         ws = wb.add_sheet('所有差异', cell_overwrite_ok=True)
         output_path = "对比结果_" + str(self.count) + ".xls"
         if 1 not in self.excel_compare.dic or self.excel_compare.dic[1] == "":
-            self.info_old()
+            info = "旧版文件为空, 请重新选择!  "
+            self.info_tip(info)
         elif 2 not in self.excel_compare.dic or self.excel_compare.dic[2] == "":
-            self.info_new()
+            info = "新版文件为空, 请重新选择!  "
+            self.info_tip(info)
         else:
             # 1. 读取A版、B版两张Excel表格
             excel_old = self.excel_compare.get_info(self.excel_compare.dic[1])
@@ -534,8 +498,8 @@ class Ui_MainWindow(object):
                                                                       add_res, name, start_row,
                                                                       max_list)
                 except IndexError:
-                    print("序号")
-                    self.info_index()
+                    info = "零部件序号不连续!  "
+                    self.info_tip(info)
                     return
 
                 ws.write(start_row + 1, 0, label=self.excel_compare.compare_components(name_set_old, name_set_new),
@@ -547,7 +511,8 @@ class Ui_MainWindow(object):
                     self.count += 1
                     self.info_success(dirpath[0])
             except IndexError:
-                self.info_wrong_file()
+                info = "文件格式不正确, 请选择正确格式的文件  "
+                self.info_tip(info)
 
     def clear(self):
         """一键清空文件"""
