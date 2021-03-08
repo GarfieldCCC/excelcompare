@@ -395,7 +395,7 @@ class Ui_MainWindow(object):
         btn_yes.setText("确定")
         msg_box.exec_()
 
-    def info_wrong_file(self):  # 消息：旧版文件不能为空
+    def info_wrong_file(self):  # 消息：文件内容不对
         msg_box = QtWidgets.QMessageBox()
         msg_box.setWindowIcon(QtGui.QIcon("info.ico"))
         msg_box.setWindowTitle("注意! ")
@@ -420,6 +420,16 @@ class Ui_MainWindow(object):
         msg_box.setWindowIcon(QtGui.QIcon("info.ico"))
         msg_box.setWindowTitle("注意! ")
         msg_box.setText("<font size='4'>新版文件为空, 请重新选择!  </font>")
+        msg_box.setStandardButtons(QtWidgets.QMessageBox.Yes)
+        btn_yes = msg_box.button(QtWidgets.QMessageBox.Yes)
+        btn_yes.setText("确定")
+        msg_box.exec_()
+
+    def info_index(self):  # 消息：序号索引不对
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setWindowIcon(QtGui.QIcon("info.ico"))
+        msg_box.setWindowTitle("注意! ")
+        msg_box.setText("<font size='4'>零部件序号不连续!  </font>")
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Yes)
         btn_yes = msg_box.button(QtWidgets.QMessageBox.Yes)
         btn_yes.setText("确定")
@@ -488,40 +498,46 @@ class Ui_MainWindow(object):
 
                 # 第一遍, 为了获取最大列宽
                 self.excel_write.output_head(ws)
-                start_row = 2
-                for name in dic_old:
-                    if name in dic_new:
-                        mat_old = self.excel_compare.generate_mat_complete(dic_old[name], excel_old)
-                        mat_new = self.excel_compare.generate_mat_complete(dic_new[name], excel_new)
+                try:
+                    start_row = 2
+                    for name in dic_old:
+                        if name in dic_new:
+                            mat_old = self.excel_compare.generate_mat_complete(dic_old[name], excel_old)
+                            mat_new = self.excel_compare.generate_mat_complete(dic_new[name], excel_new)
 
-                        c_mat_old = self.excel_compare.compress_mat(mat_old)
-                        c_mat_new = self.excel_compare.compress_mat(mat_new)
+                            c_mat_old = self.excel_compare.compress_mat(mat_old)
+                            c_mat_new = self.excel_compare.compress_mat(mat_new)
 
-                        change_res, delete_res, add_res = self.excel_compare.output(excel_old, excel_new, dic_old,
-                                                                                    dic_new,
-                                                                                    c_mat_old, c_mat_new, name)
-                        start_row = self.excel_write.output_excel(ws, wb, output_path, change_res, delete_res,
-                                                                  add_res, name, start_row)
+                            change_res, delete_res, add_res = self.excel_compare.output(excel_old, excel_new, dic_old,
+                                                                                        dic_new,
+                                                                                        c_mat_old, c_mat_new, name)
+                            start_row = self.excel_write.output_excel(ws, wb, output_path, change_res, delete_res,
+                                                                      add_res, name, start_row)
 
-                max_list = self.excel_write.adjust_col(output_path)
+                    max_list = self.excel_write.adjust_col(output_path)
 
-                # 第二遍, 带上列宽和格式写入
-                self.excel_write.output_head(ws)
-                start_row = 2
-                for name in dic_old:
-                    if name in dic_new:
-                        mat_old = self.excel_compare.generate_mat_complete(dic_old[name], excel_old)
-                        mat_new = self.excel_compare.generate_mat_complete(dic_new[name], excel_new)
+                    # 第二遍, 带上列宽和格式写入
+                    self.excel_write.output_head(ws)
+                    start_row = 2
+                    for name in dic_old:
+                        if name in dic_new:
+                            mat_old = self.excel_compare.generate_mat_complete(dic_old[name], excel_old)
+                            mat_new = self.excel_compare.generate_mat_complete(dic_new[name], excel_new)
 
-                        c_mat_old = self.excel_compare.compress_mat(mat_old)
-                        c_mat_new = self.excel_compare.compress_mat(mat_new)
+                            c_mat_old = self.excel_compare.compress_mat(mat_old)
+                            c_mat_new = self.excel_compare.compress_mat(mat_new)
 
-                        change_res, delete_res, add_res = self.excel_compare.output(excel_old, excel_new, dic_old,
-                                                                                    dic_new,
-                                                                                    c_mat_old, c_mat_new, name)
-                        start_row = self.excel_write.output_excel(ws, wb, output_path, change_res, delete_res,
-                                                                  add_res, name, start_row,
-                                                                  max_list)
+                            change_res, delete_res, add_res = self.excel_compare.output(excel_old, excel_new, dic_old,
+                                                                                        dic_new,
+                                                                                        c_mat_old, c_mat_new, name)
+                            start_row = self.excel_write.output_excel(ws, wb, output_path, change_res, delete_res,
+                                                                      add_res, name, start_row,
+                                                                      max_list)
+                except IndexError:
+                    print("序号")
+                    self.info_index()
+                    return
+
                 ws.write(start_row + 1, 0, label=self.excel_compare.compare_components(name_set_old, name_set_new),
                          style=self.excel_write.style_note)
                 os.remove(output_path)
@@ -530,7 +546,7 @@ class Ui_MainWindow(object):
                     wb.save(dirpath[0])
                     self.count += 1
                     self.info_success(dirpath[0])
-            except:
+            except IndexError:
                 self.info_wrong_file()
 
     def clear(self):
