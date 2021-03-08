@@ -37,10 +37,10 @@ class ExcelOutput:
 
     def adjust_col(self, filename):
         """行宽自适应"""
-        max_list = [0, 0, 0, 0, 0, 0, 0]
+        max_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         data = xlrd.open_workbook(filename)
         sheet = data.sheet_by_index(0)
-        for i in range(sheet.nrows):
+        for i in range(1, sheet.nrows):
             for j in range(sheet.ncols):
                 max_list[j] = max(max_list[j], len(sheet.cell(i, j).value.encode('gb18030')))
         return max_list
@@ -52,10 +52,14 @@ class ExcelOutput:
         ws.write_merge(0, 1, 1, 1, "代号", self.style_head)
         ws.write_merge(0, 0, 2, 3, "变更之前", self.style_head)
         ws.write_merge(0, 0, 4, 5, "变更之后", self.style_head)
+        ws.write_merge(0, 0, 7, 9, "新增零部件信息", self.style_head)
         ws.write(1, 2, "变更字段", self.style_head)
         ws.write(1, 4, "变更字段", self.style_head)
         ws.write(1, 3, "变更内容", self.style_head)
         ws.write(1, 5, "变更内容", self.style_head)
+        ws.write(1, 7, "数量", self.style_head)
+        ws.write(1, 8, "材料", self.style_head)
+        ws.write(1, 9, "备注", self.style_head)
 
     def output_excel(self, ws, wb, out_path, change, delete, add, name, start_row, max_list=[]):
         """打印并输出至Excel"""
@@ -70,6 +74,9 @@ class ExcelOutput:
             ws.col(4).width = 256 * (max_list[4] + 2)
             ws.col(5).width = 256 * (max_list[5] + 2)
             ws.col(6).width = 256 * (max_list[6] + 2)
+            ws.col(7).width = 256 * (max_list[7] + 2)
+            ws.col(8).width = 256 * (max_list[8] + 2)
+            ws.col(9).width = 256 * (max_list[9] + 2)
 
         # 1. 变动部分
         start = end_row
