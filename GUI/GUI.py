@@ -526,7 +526,7 @@ class Ui_MainWindow(object):
                     self.count += 1
                     self.info_success(dirpath[0])
             except IndexError:
-                info = "文件格式不正确, 请选择正确格式的文件  "
+                info = "文件内容不正确, 请选择对应模板的文件  "
                 self.info_tip(info)
 
     def clear(self):
