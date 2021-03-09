@@ -2,7 +2,7 @@
 
 ; 安装程序初始定义常量
 !define PRODUCT_NAME "Excel差异对比"
-!define PRODUCT_VERSION "2.0"
+!define PRODUCT_VERSION "1.1"
 !define PRODUCT_PUBLISHER "Garfield"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\GUI.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -51,11 +51,11 @@ BrandingText "Garfield"
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
-  File "D:\Project\Python\excelcompare\GUI\dist\*.*"
+  File "D:\Project\Python\excelcompare\GUI\dist\GUI.exe"
   CreateDirectory "$SMPROGRAMS\Excel差异对比"
   CreateShortCut "$SMPROGRAMS\Excel差异对比\Excel差异对比.lnk" "$INSTDIR\GUI.exe"
   CreateShortCut "$DESKTOP\Excel差异对比.lnk" "$INSTDIR\GUI.exe"
-  File "D:\Project\Python\excelcompare\GUI\dist\GUI.exe"
+  File "D:\Project\Python\excelcompare\GUI\dist\*.*"
 SectionEnd
 
 Section -AdditionalIcons
@@ -78,8 +78,8 @@ SectionEnd
 
 Section Uninstall
   Delete "$INSTDIR\uninst.exe"
-  Delete "$INSTDIR\GUI.exe"
   Delete "$INSTDIR\*.*"
+  Delete "$INSTDIR\GUI.exe"
 
   Delete "$SMPROGRAMS\Excel差异对比\Uninstall.lnk"
   Delete "$DESKTOP\Excel差异对比.lnk"
