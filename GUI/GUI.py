@@ -1,4 +1,3 @@
-import win32com.client
 import os
 import sys
 import xlrd
@@ -148,25 +147,10 @@ class ExcelCompare:
 
         self.dic = {}
 
-    def xlsx2xls(self, path):
-        """将.xlsx转换为.xls"""
-        excel = win32com.client.Dispatch('Excel.Application')
-        wb = excel.Workbooks.Open(path)
-        wb.SaveAs(path[:-4] + "xls", FileFormat=56)
-        wb.Close()
-        excel.Application.Quit()
-        return path[:-4] + "xls"
-
     def get_info(self, path):
         """读取Excel"""
-        flag = 0
-        if path[-1] == "x":
-            path = self.xlsx2xls(path)
-            flag = 1
         data = xlrd.open_workbook(path)
-        if flag == 1 and os.path.exists(path):
-            os.remove(path)
-        # print(data.sheet_names())
+        print(data.sheet_names())
         return data
 
     def get_all_index(self, list, value):
@@ -553,7 +537,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Excel文件差异对比"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "陕鼓汇总表EXCEL差异对比专用"))
         MainWindow.setWindowIcon(QtGui.QIcon("Icon.ico"))
         file = QtCore.QFile('css.qss')
         file.open(QtCore.QFile.ReadOnly)
